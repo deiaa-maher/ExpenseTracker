@@ -2,7 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("kotlin-kapt")  // Add this line
+    //id("kotlin-kapt")  // Add this line
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")  // ✅ Add KSP plugin
 }
 
 android {
@@ -60,15 +63,18 @@ android {
 
 
     // Firebase
-        implementation("com.google.firebase:firebase-auth-ktx:22.2.0")
-        implementation("com.google.firebase:firebase-firestore-ktx:24.9.0")
+    implementation(libs.firebase.auth.ktx)  // Use version from `libs.versions.toml`
+    implementation(libs.firebase.firestore.ktx) // Firestore support
 
     // Room Database
-    implementation("androidx.room:room-runtime:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
+    implementation(libs.room.runtime)  // ✅ Uses version from catalog
+    //ksp(libs.room.compiler)
+    ksp(libs.room.ksp)  // ✅ Replaces kapt with KSP
+
     // Apache POI for Excel Export
-    implementation("org.apache.poi:poi-ooxml:5.2.3")
+    implementation(libs.poi.ooxml)
 
     // Coroutine Support
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation(libs.kotlinx.coroutines)
 }
+
